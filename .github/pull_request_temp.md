@@ -1,13 +1,11 @@
-Remove this line before submitting. The pull request title should follow this format: `[Resource] -> [Section in Documentation]`.
-
 # Resource Name
-Provide the name of the resource here.
+Huetone
 
 ## Description
-Write a short description of the resource you are adding.
+A tool to create accessible color systems.
 
 ## Link
-Add the link to the resource: `www.linkToResource`.
+https://huetone.ardov.me/
 
 ## Checklist
-- [ ] I have reviewed the resource and ensured it follows the project's guidelines.
+- [✔] I have reviewed the resource and ensured it follows the project's guidelines.
