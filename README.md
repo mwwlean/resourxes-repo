@@ -210,6 +210,9 @@
 </div>
 
 ## Icons
+| Website &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Description                                                       |
+| ------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------- |
+| [Lucidedev](https://lucide.dev/)                                                           | Beautiful & consistent icons. |
 
 <div align="right">
     <b><a href="#table-of-contents">↥ Back To Top</a></b>
