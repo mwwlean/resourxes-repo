@@ -1,13 +1,13 @@
+Remove this line before submitting. The pull request title should follow this format: `[Resource] -> [Section in Documentation]`.
+
 # Resource Name
-- Iconoir
-- Ionic
+Provide the name of the resource here.
 
 ## Description
-opensource icons for website
+Write a short description of the resource you are adding.
 
 ## Link
-[iconoir](https://iconoir.com/)
-[ionic](https://ionic.io/ionicons)
+Add the link to the resource: `www.linkToResource`.
 
 ## Checklist
-- [/] I have reviewed the resource and ensured it follows the project's guidelines.
+- [ ] I have reviewed the resource and ensured it follows the project's guidelines.
