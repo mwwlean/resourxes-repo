@@ -201,9 +201,6 @@
 </div>
 
 ## Colors
-| Website &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Description                                                       |
-| ------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------- |
-| [Huetone](https://huetone.ardov.me/)                                                           | A tool to create accessible color systems. |
 
 <div align="right">
     <b><a href="#table-of-contents">↥ Back To Top</a></b>
