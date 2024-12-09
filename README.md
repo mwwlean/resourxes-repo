@@ -213,6 +213,8 @@
 | Website &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Description                                                       |
 | ------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------- |
 | [Lucidedev](https://lucide.dev/)                                                           | Beautiful & consistent icons. |
+| [Iconoir](https://iconoir.com/)                                                           | Free library of 900+ open source icons |
+| [Ionic](https://ionic.io/ionicons)                                                           | Beautifully crafted open source icons for use in web. |
 
 <div align="right">
     <b><a href="#table-of-contents">↥ Back To Top</a></b>
