@@ -31,7 +31,7 @@
 
 <span
 	class={cn(
-		'flex shrink-0 items-center justify-center overflow-hidden rounded-lg border border-border bg-white',
+		'flex shrink-0 items-center justify-center overflow-hidden rounded-lg border border-border bg-muted',
 		className
 	)}
 >
@@ -41,7 +41,7 @@
 			alt=""
 			loading="lazy"
 			referrerpolicy="no-referrer"
-			class="size-5 object-contain"
+			class="size-5 object-contain opacity-80 grayscale transition dark:invert group-hover:opacity-100 group-hover:grayscale-0 group-hover:invert-0 group-focus-visible:opacity-100 group-focus-visible:grayscale-0 group-focus-visible:invert-0"
 			onerror={() => (attempt += 1)}
 		/>
 	{:else}

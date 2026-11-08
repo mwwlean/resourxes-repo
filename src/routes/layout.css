@@ -4,6 +4,13 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Animatable angle for rotating conic-gradient borders. */
+@property --glow-angle {
+	syntax: '<angle>';
+	initial-value: 0deg;
+	inherits: false;
+}
+
 @theme {
 	--font-sans: 'Host Grotesk', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
 	--font-mono: 'Roboto Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;

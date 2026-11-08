@@ -458,7 +458,7 @@ export const designCategories: ResourceCategory[] = [
 			{
 				"name": "What Font Finder",
 				"url": "https://whatfontfinder.com/font-identifier/",
-				"description": "Identify a font from an image in your browser — the picture never leaves your device, and each match is scored so you can tell a close hit from a guess"
+				"description": "Identify a font from an image in your browser, the picture never leaves your device, and each match is scored so you can tell a close hit from a guess"
 			},
 			{
 				"name": "Fontshare",
@@ -473,7 +473,7 @@ export const designCategories: ResourceCategory[] = [
 			{
 				"name": "Font Finder by Image",
 				"url": "https://fontboxdl.com/tools/font-finder",
-				"description": "Free tool that identifies any font from an uploaded image or photo — no signup, a free WhatTheFont alternative"
+				"description": "Free tool that identifies any font from an uploaded image or photo, no signup, a free WhatTheFont alternative"
 			},
 			{
 				"name": "Cursive Text Generator",
@@ -931,7 +931,7 @@ export const designCategories: ResourceCategory[] = [
 			{
 				"name": "CoolColor Space Video Palette",
 				"url": "https://coolcolor.space/video-palette",
-				"description": "Extract a color palette from a video in the browser — from frames across the clip or from the paused frame; shows per-frame colors and exports CSS, SCSS, Tailwind or JSON. No upload, no sign-up"
+				"description": "Extract a color palette from a video in the browser, from frames across the clip or from the paused frame; shows per-frame colors and exports CSS, SCSS, Tailwind or JSON. No upload, no sign-up"
 			}
 		]
 	},
@@ -954,7 +954,7 @@ export const designCategories: ResourceCategory[] = [
 			{
 				"name": "Infyicon",
 				"url": "https://infyicon.com/",
-				"description": "160,000+ free icons in outline, filled & color styles — free SVG & PNG, with attribution"
+				"description": "160,000+ free icons in outline, filled & color styles, free SVG & PNG, with attribution"
 			},
 			{
 				"name": "UXWing",
@@ -2594,7 +2594,7 @@ export const designCategories: ResourceCategory[] = [
 			{
 				"name": "DAUB",
 				"url": "https://daub.dev/",
-				"description": "Considered CSS component library — 73 components, 20 theme families, classless mode, AI-ready with llms.txt and MCP server. Zero build step"
+				"description": "Considered CSS component library, 73 components, 20 theme families, classless mode, AI-ready with llms.txt and MCP server. Zero build step"
 			},
 			{
 				"name": "PSone",
@@ -2735,7 +2735,7 @@ export const designCategories: ResourceCategory[] = [
 			{
 				"name": "CSShake",
 				"url": "http://elrumordelaluz.github.io/csshake/",
-				"description": "CSShake delivers exactly what it says on the box — a CSS library designed specifically for shaking elements within your web page"
+				"description": "CSShake delivers exactly what it says on the box: a CSS library designed specifically for shaking elements within your web page"
 			},
 			{
 				"name": "Hover.css",
@@ -3119,7 +3119,7 @@ export const designCategories: ResourceCategory[] = [
 			{
 				"name": "Frutjam",
 				"url": "https://frutjam.com/",
-				"description": "CSS-only Tailwind v4 component library — no JS, no hydration issues. 60+ WCAG AA/AAA accessible components for Next.js, Nuxt, Django, Laravel, or any framework"
+				"description": "CSS-only Tailwind v4 component library, no JS, no hydration issues. 60+ WCAG AA/AAA accessible components for Next.js, Nuxt, Django, Laravel, or any framework"
 			},
 			{
 				"name": "CSSnippets",
@@ -4905,7 +4905,7 @@ export const designCategories: ResourceCategory[] = [
 			{
 				"name": "Nutilz Glassmorphism Generator",
 				"url": "https://nutilz.com/glassmorphism-generator",
-				"description": "Free online glassmorphism CSS generator with live preview — adjust blur, transparency and border to get ready-to-use CSS code. No signup required."
+				"description": "Free online glassmorphism CSS generator with live preview, adjust blur, transparency and border to get ready-to-use CSS code. No signup required."
 			},
 			{
 				"name": "TableConvert",
@@ -4970,7 +4970,7 @@ export const designCategories: ResourceCategory[] = [
 			{
 				"name": "Typing Words GIF",
 				"url": "https://typingwordsgif.com/",
-				"description": "Free online typing text / typing words GIF maker — no login"
+				"description": "Free online typing text / typing words GIF maker, no login"
 			},
 			{
 				"name": "Visily",
@@ -5411,7 +5411,7 @@ export const designCategories: ResourceCategory[] = [
 			{
 				"name": "a-fresh.website",
 				"url": "https://a-fresh.website",
-				"description": "Hand—picked website and component inspiration library."
+				"description": "Hand-picked website and component inspiration library."
 			},
 			{
 				"name": "bestwebdesigntools",
@@ -5539,7 +5539,7 @@ export const designCategories: ResourceCategory[] = [
 			{
 				"name": "Image Compressor",
 				"url": "https://www.nasrtech.dev/image-compressor/",
-				"description": "Free browser-based image compressor for JPG, PNG and WebP — runs 100% client-side, nothing is uploaded"
+				"description": "Free browser-based image compressor for JPG, PNG and WebP, runs 100% client-side, nothing is uploaded"
 			},
 			{
 				"name": "JPEG Optimizer",
@@ -5574,7 +5574,7 @@ export const designCategories: ResourceCategory[] = [
 			{
 				"name": "PhotoReducer",
 				"url": "https://photoreducer.com/",
-				"description": "Compress images to an exact file size (e.g. under 100 KB), resize and convert JPG, PNG, WebP, AVIF & HEIC — runs fully in the browser via WebAssembly, so photos are never uploaded"
+				"description": "Compress images to an exact file size (e.g. under 100 KB), resize and convert JPG, PNG, WebP, AVIF & HEIC, runs fully in the browser via WebAssembly, so photos are never uploaded"
 			},
 			{
 				"name": "Vecta Nano",
@@ -5609,7 +5609,7 @@ export const designCategories: ResourceCategory[] = [
 			{
 				"name": "PNG Compressor",
 				"url": "https://99tools.net/png-compressor/",
-				"description": "A fast and simple PNG Compressor that reduces image file size without noticeable quality loss. Optimize PNGs instantly in your browser—no uploads, secure, and developer-friendly."
+				"description": "A fast and simple PNG Compressor that reduces image file size without noticeable quality loss. Optimize PNGs instantly in your browser, no uploads, secure, and developer-friendly."
 			},
 			{
 				"name": "Vaultool Image Compressor",
@@ -5649,7 +5649,7 @@ export const designCategories: ResourceCategory[] = [
 			{
 				"name": "Compress Image to Target Size",
 				"url": "https://abox.tools/compress-image/",
-				"description": "Compress a JPEG, PNG or WebP down to an exact file size — 100 KB, 2 MB, whatever the upload limit is — instead of guessing at a quality slider. Runs entirely in the browser, nothing is uploaded, and it works offline. Free and open source."
+				"description": "Compress a JPEG, PNG or WebP down to an exact file size (100 KB, 2 MB, whatever the upload limit is) instead of guessing at a quality slider. Runs entirely in the browser, nothing is uploaded, and it works offline. Free and open source."
 			},
 			{
 				"name": "frisqoo Compress Images",
@@ -5802,7 +5802,7 @@ export const designCategories: ResourceCategory[] = [
 			{
 				"name": "GoFullPage - Full Page Screen Capture",
 				"url": "https://chrome.google.com/webstore/detail/gofullpage-full-page-scre/fdpohaocaechififmbbbbbknoalclacl",
-				"description": "Capture a screenshot of your current page in entirety and reliably—without requesting any extra permissions!"
+				"description": "Capture a screenshot of your current page in entirety and reliably, without requesting any extra permissions!"
 			},
 			{
 				"name": "Stylebot",
@@ -6161,7 +6161,7 @@ export const designCategories: ResourceCategory[] = [
 			{
 				"name": "DevUtils",
 				"url": "https://tyr1105.github.io/devutils-tools/",
-				"description": "10 free online developer tools (JSON formatter, Base64, JWT debugger, hash generator, regex tester, color converter, markdown preview, etc.) — no login required."
+				"description": "10 free online developer tools (JSON formatter, Base64, JWT debugger, hash generator, regex tester, color converter, markdown preview, etc.), no login required."
 			},
 			{
 				"name": "CSS Ribbon Generator",
@@ -6466,7 +6466,7 @@ export const designCategories: ResourceCategory[] = [
 			{
 				"name": "ToolCascade",
 				"url": "https://toolcascade.com/",
-				"description": "80+ free browser-based tools: PDF merge/split, image converters, CSS generators, minifiers, timers, and unit converters. Everything runs client-side — no signup, files never leave your device."
+				"description": "80+ free browser-based tools: PDF merge/split, image converters, CSS generators, minifiers, timers, and unit converters. Everything runs client-side, no signup, files never leave your device."
 			},
 			{
 				"name": "IT Tools",

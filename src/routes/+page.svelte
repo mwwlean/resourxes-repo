@@ -1,176 +1,190 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import {
-		ArrowUpRight,
-		Atom,
-		BadgeCheck,
-		BarChart3,
-		Blocks,
-		BookOpen,
-		Bot,
-		Boxes,
-		CaseSensitive,
-		ChevronDown,
-		Cloud,
-		Code2,
-		Component,
-		Database,
-		Download,
-		Film,
-		Flame,
-		FlaskConical,
-		Frame,
-		GitBranch,
-		Globe,
-		Image,
-		Layers,
-		LayoutTemplate,
-		Lightbulb,
-		ListChecks,
-		Minimize2,
-		Monitor,
-		Moon,
-		Music,
-		Paintbrush,
-		Palette,
-		PenTool,
-		Puzzle,
-		Rocket,
-		Search,
-		Shapes,
-		Shield,
-		SlidersHorizontal,
-		Smartphone,
-		Sparkles,
-		Sun,
-		SwatchBook,
-		Triangle,
-		Type,
-		Video,
-		Wand2,
-		Webhook,
-		X
-	} from 'lucide-svelte';
-	import {
-		categories as devCategories,
-		totalResources as devTotal,
-		type ResourceCategory
-	} from '#lib/resources.ts';
-	import { designCategories, designTotal } from '#lib/design-resources.ts';
-	import ResourceIcon from '#lib/components/resource-icon.svelte';
+	import { ArrowUpRight, BookOpen, Moon, Star, Sun } from 'lucide-svelte';
 	import { Button } from '#lib/components/ui/button/index.ts';
-	import * as Card from '#lib/components/ui/card/index.ts';
-	import { Input } from '#lib/components/ui/input/index.ts';
-	import { Badge } from '#lib/components/ui/badge/index.ts';
-	import { Tabs, TabsList, TabsTrigger } from '#lib/components/ui/tabs/index.ts';
-	import { Separator } from '#lib/components/ui/separator/index.ts';
-
-	type Source = 'all' | 'dev' | 'design';
-	type Category = ResourceCategory & { source: 'dev' | 'design'; key: string };
-
-	const icons: Record<string, typeof Layers> = {
-		Atom,
-		BadgeCheck,
-		BarChart3,
-		Blocks,
-		BookOpen,
-		Bot,
-		Boxes,
-		CaseSensitive,
-		Cloud,
-		Code2,
-		Component,
-		Database,
-		Download,
-		Film,
-		Flame,
-		FlaskConical,
-		Frame,
-		GitBranch,
-		Globe,
-		Image,
-		Layers,
-		LayoutTemplate,
-		Lightbulb,
-		ListChecks,
-		Minimize2,
-		Monitor,
-		Music,
-		Paintbrush,
-		Palette,
-		PenTool,
-		Puzzle,
-		Rocket,
-		Shapes,
-		Shield,
-		Smartphone,
-		SwatchBook,
-		Triangle,
-		Type,
-		Video,
-		Wand2,
-		Webhook
-	};
-
-	const allCategories: Category[] = [
-		...devCategories.map((category) => ({
-			...category,
-			source: 'dev' as const,
-			key: `dev-${category.slug}`
-		})),
-		...designCategories.map((category) => ({
-			...category,
-			source: 'design' as const,
-			key: `design-${category.slug}`
-		}))
-	];
+	import { totalResources as devTotal } from '#lib/resources.ts';
+	import { designTotal } from '#lib/design-resources.ts';
+	import { aiTotal } from '#lib/ai-resources.ts';
+	import { categories as devCategories } from '#lib/resources.ts';
+	import { designCategories } from '#lib/design-resources.ts';
+	import { aiCategories } from '#lib/ai-resources.ts';
 
 	const totals = {
-		all: devTotal + designTotal,
+		all: devTotal + designTotal + aiTotal,
 		dev: devTotal,
+		ai: aiTotal,
 		design: designTotal
 	};
 
-	const sources: { value: Source; label: string; count: number }[] = [
-		{ value: 'all', label: 'All', count: totals.all },
-		{ value: 'dev', label: 'Dev', count: totals.dev },
-		{ value: 'design', label: 'Design', count: totals.design }
+	const totalCategories = devCategories.length + designCategories.length + aiCategories.length;
+
+	const repoUrl = 'https://github.com/mwwlean/resourxes-repo';
+
+	let stars = $state<number | null>(null);
+
+	let dark = $state(false);
+
+	const headline =
+		'A curated list of developer tools to help you code, design, and build faster.';
+	const headlineWords = headline.split(' ');
+
+	type ToolCard = { name: string; domain: string; tag: string };
+
+	/**
+	 * Decorative vertical marquee beside the hero. Columns scroll in alternating
+	 * directions (up, down, up); each list is rendered twice so the loop is seamless.
+	 */
+	const toolColumns: ToolCard[][] = [
+		[
+			{ name: 'React', domain: 'react.dev', tag: 'Frameworks' },
+			{ name: 'Supabase', domain: 'supabase.com', tag: 'Databases' },
+			{ name: 'VS Code', domain: 'code.visualstudio.com', tag: 'Editors' },
+			{ name: 'Docker', domain: 'docker.com', tag: 'Deployment' },
+			{ name: 'Next.js', domain: 'nextjs.org', tag: 'Frameworks' },
+			{ name: 'Prisma', domain: 'prisma.io', tag: 'Databases' },
+			{ name: 'GitHub', domain: 'github.com', tag: 'Version control' },
+			{ name: 'Redis', domain: 'redis.io', tag: 'Databases' },
+			{ name: 'Playwright', domain: 'playwright.dev', tag: 'Testing' },
+			{ name: 'Bun', domain: 'bun.sh', tag: 'Runtimes' },
+			{ name: 'Sentry', domain: 'sentry.io', tag: 'Monitoring' },
+			{ name: 'Postman', domain: 'postman.com', tag: 'APIs' }
+		],
+		[
+			{ name: 'Claude Code', domain: 'claude.ai', tag: 'AI agents' },
+			{ name: 'Figma', domain: 'figma.com', tag: 'Design' },
+			{ name: 'Tailwind CSS', domain: 'tailwindcss.com', tag: 'CSS frameworks' },
+			{ name: 'PostgreSQL', domain: 'postgresql.org', tag: 'Databases' },
+			{ name: 'Vue.js', domain: 'vuejs.org', tag: 'Frameworks' },
+			{ name: 'Ollama', domain: 'ollama.com', tag: 'Local models' },
+			{ name: 'Hugging Face', domain: 'huggingface.co', tag: 'AI platforms' },
+			{ name: 'Cloudflare', domain: 'cloudflare.com', tag: 'Cloud' },
+			{ name: 'Linear', domain: 'linear.app', tag: 'Productivity' },
+			{ name: 'MongoDB', domain: 'mongodb.com', tag: 'Databases' },
+			{ name: 'Vitest', domain: 'vitest.dev', tag: 'Testing' },
+			{ name: 'Framer', domain: 'framer.com', tag: 'Design' }
+		],
+		[
+			{ name: 'Svelte', domain: 'svelte.dev', tag: 'Frameworks' },
+			{ name: 'Vercel', domain: 'vercel.com', tag: 'Deployment' },
+			{ name: 'Cursor', domain: 'cursor.com', tag: 'AI agents' },
+			{ name: 'Notion', domain: 'notion.so', tag: 'Productivity' },
+			{ name: 'Vite', domain: 'vite.dev', tag: 'Build tools' },
+			{ name: 'Node.js', domain: 'nodejs.org', tag: 'Runtimes' },
+			{ name: 'Netlify', domain: 'netlify.com', tag: 'Deployment' },
+			{ name: 'LangChain', domain: 'langchain.com', tag: 'Agent frameworks' },
+			{ name: 'Storybook', domain: 'storybook.js.org', tag: 'Testing' },
+			{ name: 'Kubernetes', domain: 'kubernetes.io', tag: 'Deployment' },
+			{ name: 'Obsidian', domain: 'obsidian.md', tag: 'Productivity' },
+			{ name: 'Deno', domain: 'deno.com', tag: 'Runtimes' }
+		]
+	];
+	const marquee = [
+		{ duration: 46, reverse: false },
+		{ duration: 54, reverse: true },
+		{ duration: 50, reverse: false }
 	];
 
-	let query = $state('');
-	let source = $state<Source>('all');
-	let active = $state('all');
-	let expanded = $state<string[]>([]);
-	let filtersOpen = $state(false);
-	let dark = $state(false);
-	let scrolled = $state(false);
-	let wordmarkVisible = $state(false);
-	let wordmarkMaskEl: HTMLElement | undefined;
+	/** Open-source avatars from DiceBear (notionists style, CC0 artwork). */
+	const avatarSeeds = ['Aneka', 'Milo', 'Jade'];
+	/** Fixed sparkles around the stars pill: position (% of pill), cycle, and offset. */
+	const pillSparks = [
+		{ x: -3, y: -18, life: 2.4, delay: 0, color: '#fde68a' },
+		{ x: 34, y: -34, life: 3, delay: 1.1, color: '#ffffff' },
+		{ x: 98, y: 6, life: 2.7, delay: 0.5, color: '#fde68a' },
+		{ x: 70, y: 112, life: 3.2, delay: 1.8, color: '#ffffff' },
+		{ x: 8, y: 104, life: 2.6, delay: 2.4, color: '#fecaca' }
+	];
+
+	const avatar = (seed: string) =>
+		`https://api.dicebear.com/9.x/notionists/svg?seed=${seed}&backgroundColor=fde68a,fecaca,bfdbfe`;
+
+	const logo = (domain: string) => `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+
+	/* Sparkles over the headline (after Magic UI's Sparkles Text). Each star twinkles once,
+	   then jumps to a new random spot on the next animation cycle. */
+	type Spark = { id: number; x: number; y: number; color: string; delay: number; scale: number; life: number };
+	const SPARK_COLORS = ['#fde68a', '#ffffff', '#fecaca'];
+	const SPARK_COUNT = 12;
+	let sparkId = 0;
+
+	function makeSpark(initial = false): Spark {
+		return {
+			id: sparkId++,
+			x: Math.random() * 100,
+			y: Math.random() * 100,
+			color: SPARK_COLORS[Math.floor(Math.random() * SPARK_COLORS.length)],
+			delay: initial ? Math.random() * 2 : 0,
+			scale: 0.5 + Math.random() * 0.7,
+			life: 1.4 + Math.random() * 1.4
+		};
+	}
+
+	let sparks = $state<Spark[]>([]);
+
+	/**
+	 * Move a spark to a new spot when its cycle ends. Only position, color and size change:
+	 * changing duration or delay on a running animation makes the browser recompute its
+	 * progress, which caused visible blinking and runaway rapid respawns.
+	 */
+	function respawn(index: number) {
+		const current = sparks[index];
+		const next = makeSpark();
+		sparks[index] = { ...current, x: next.x, y: next.y, color: next.color, scale: next.scale };
+	}
+
+	let headlineEl = $state<HTMLElement | null>(null);
+	let lineCount = $state(0);
+	let heroReady = $state(false);
+
+	/** Tag each word with the visual line it wrapped onto, so lines rise in order. */
+	function measureLines() {
+		if (!headlineEl) return;
+		let line = -1;
+		let lastTop = -Infinity;
+		headlineEl.querySelectorAll<HTMLElement>('[data-word]').forEach((word) => {
+			if (word.offsetTop > lastTop + 2) {
+				line += 1;
+				lastTop = word.offsetTop;
+			}
+			word.style.setProperty('--line', String(line));
+		});
+		lineCount = line + 1;
+	}
 
 	onMount(() => {
 		dark = document.documentElement.classList.contains('dark');
+		loadRepo();
+		sparks = Array.from({ length: SPARK_COUNT }, () => makeSpark(true));
 
-		const onScroll = () => (scrolled = window.scrollY > 16);
-		onScroll();
-		window.addEventListener('scroll', onScroll, { passive: true });
+		let cancelled = false;
+		// Wait for the webfont so line breaks are final before measuring.
+		const fontsReady = document.fonts?.ready ?? Promise.resolve();
+		fontsReady.then(() => {
+			if (cancelled) return;
+			measureLines();
+			requestAnimationFrame(() => requestAnimationFrame(() => (heroReady = true)));
+		});
 
-		const observer = new IntersectionObserver(
-			([entry]) => {
-				if (entry.isIntersecting) {
-					wordmarkVisible = true;
-					observer.disconnect();
-				}
-			},
-			{ threshold: 0 }
-		);
-
-		if (wordmarkMaskEl) observer.observe(wordmarkMaskEl);
-
+		window.addEventListener('resize', measureLines);
 		return () => {
-			window.removeEventListener('scroll', onScroll);
-			observer.disconnect();
+			cancelled = true;
+			window.removeEventListener('resize', measureLines);
 		};
 	});
+
+	async function loadRepo() {
+		try {
+			const res = await fetch('https://api.github.com/repos/mwwlean/resourxes-repo', {
+				headers: { Accept: 'application/vnd.github+json' }
+			});
+			if (res.ok) {
+				const repo = await res.json();
+				if (typeof repo.stargazers_count === 'number') stars = repo.stargazers_count;
+			}
+		} catch {
+			/* ignore */
+		}
+	}
 
 	function toggleTheme() {
 		dark = !dark;
@@ -181,459 +195,441 @@
 			/* ignore */
 		}
 	}
-
-	function changeSource(next: string) {
-		source = next as Source;
-		active = 'all';
-	}
-
-	function selectCategory(key: string) {
-		active = key;
-		filtersOpen = false;
-	}
-
-	function goToSource(next: Source) {
-		source = next;
-		active = 'all';
-		document.getElementById('resources')?.scrollIntoView({ behavior: 'smooth' });
-	}
-
-	function resetFilters() {
-		query = '';
-		source = 'all';
-		active = 'all';
-	}
-
-	function toggleExpanded(key: string) {
-		expanded = expanded.includes(key) ? expanded.filter((item) => item !== key) : [...expanded, key];
-	}
-
-	const scope = $derived(
-		allCategories.filter((category) => source === 'all' || category.source === source)
-	);
-
-	const scopeTotal = $derived(
-		scope.reduce((sum, category) => sum + category.items.length, 0)
-	);
-
-	const navIndex = $derived(
-		active === 'all' ? 0 : Math.max(0, scope.findIndex((category) => category.key === active) + 1)
-	);
-
-	const filtered = $derived.by(() => {
-		const q = query.trim().toLowerCase();
-		return scope
-			.filter((category) => active === 'all' || category.key === active)
-			.map((category) => ({
-				...category,
-				items: category.items.filter(
-					(item) =>
-						!q ||
-						item.name.toLowerCase().includes(q) ||
-						item.description.toLowerCase().includes(q)
-				)
-			}))
-			.filter((category) => category.items.length > 0);
-	});
-
-	const resultCount = $derived(
-		filtered.reduce((sum, category) => sum + category.items.length, 0)
-	);
-
-	const activeCategory = $derived(scope.find((category) => category.key === active) ?? null);
 </script>
 
-<div class="app-public">
-	<div class="pointer-events-none fixed inset-x-0 top-0 z-50">
-		<div
-			class="pointer-events-auto mx-auto flex items-center justify-between gap-2 transition-all duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] {scrolled
-				? 'mt-3 max-w-3xl rounded-full border border-border bg-card/85 px-3 py-2 shadow-xl shadow-black/5 backdrop-blur-xl sm:px-4'
-				: 'mt-0 max-w-[1440px] border-b border-white/15 bg-transparent px-4 py-4 sm:px-6'}"
-		>
-			<a href="#top" class="flex items-center gap-2.5">
+<svelte:head>
+	<title>ResourXe · Curated developer tools</title>
+	<noscript>
+		<style>
+			.hero-word,
+			.hero-fade,
+			.marquee-col {
+				opacity: 1 !important;
+				transform: none !important;
+			}
+		</style>
+	</noscript>
+</svelte:head>
+
+<div class="landing min-h-dvh overflow-hidden bg-brand-deep text-white">
+	<div class="mx-auto flex min-h-dvh w-full max-w-[1440px] flex-col px-4 sm:px-6">
+		<header class="flex items-center justify-between py-5">
+			<a href="/" class="flex items-center gap-2.5">
 				<span
-					class="flex size-9 items-center justify-center rounded-xl transition-colors duration-500 {scrolled
-						? 'bg-brand text-white'
-						: 'bg-white/15 text-white ring-1 ring-white/20'}"
+					class="flex size-9 items-center justify-center rounded-xl bg-white/15 text-white ring-1 ring-white/20"
 				>
 					<BookOpen class="size-4" />
 				</span>
-				<span
-					class="text-base font-bold tracking-tight transition-colors duration-500 {scrolled
-						? 'text-foreground'
-						: 'text-white'}">ResourXe</span
-				>
+				<span class="text-base font-bold tracking-tight">ResourXe</span>
 			</a>
 
-			<nav class="hidden items-center gap-1 sm:flex">
-				<a
-					href="#resources"
-					class="rounded-full px-3 py-1.5 text-sm font-medium transition-colors {scrolled
-						? 'text-muted-foreground hover:bg-muted hover:text-foreground'
-						: 'text-white/80 hover:bg-white/10 hover:text-white'}">Resources</a
-				>
-				<button
-					type="button"
-					onclick={() => goToSource('dev')}
-					class="rounded-full px-3 py-1.5 text-sm font-medium transition-colors {scrolled
-						? 'text-muted-foreground hover:bg-muted hover:text-foreground'
-						: 'text-white/80 hover:bg-white/10 hover:text-white'}">Developer</button
-				>
-				<button
-					type="button"
-					onclick={() => goToSource('design')}
-					class="rounded-full px-3 py-1.5 text-sm font-medium transition-colors {scrolled
-						? 'text-muted-foreground hover:bg-muted hover:text-foreground'
-						: 'text-white/80 hover:bg-white/10 hover:text-white'}">Design</button
-				>
-				<a
+			<div class="flex items-center gap-2">
+				<Button
 					href="https://github.com/mwwlean/resourxes-repo"
 					target="_blank"
 					rel="noopener noreferrer"
-					class="ml-1 inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm font-medium transition-colors {scrolled
-						? 'text-muted-foreground hover:bg-muted hover:text-foreground'
-						: 'text-white/80 hover:bg-white/10 hover:text-white'}"
+					variant="ghost"
+					class="hidden rounded-full text-white/80 hover:bg-white/15 hover:text-white sm:inline-flex"
 				>
 					GitHub
-					<ArrowUpRight class="size-3.5" />
-				</a>
-			</nav>
-
-			<Button
-				variant="ghost"
-				size="icon-lg"
-				onclick={toggleTheme}
-				class="size-9 rounded-full transition-colors duration-500 {scrolled
-					? 'text-foreground hover:bg-muted'
-					: 'border border-white/25 bg-white/10 text-white hover:bg-white/20 hover:text-white'}"
-				aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
-			>
-				{#if dark}
-					<Sun class="size-4" />
-				{:else}
-					<Moon class="size-4" />
-				{/if}
-			</Button>
-		</div>
-	</div>
-
-	<header id="top" class="relative overflow-hidden rounded-b-[32px] bg-brand-deep text-white">
-		<div class="pointer-events-none absolute -right-24 -top-28 size-80 rounded-full bg-white/10"></div>
-		<div class="pointer-events-none absolute -bottom-40 left-1/3 size-96 rounded-full bg-white/10"></div>
-		<div class="pointer-events-none absolute right-1/4 top-1/3 size-24 rounded-full bg-white/10"></div>
-
-		<div class="relative mx-auto max-w-[1440px] px-4 pb-12 pt-24 sm:px-6 sm:pb-16 sm:pt-28">
-			<div class="max-w-3xl">
-				<span
-					class="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-1 text-xs font-medium text-white/90"
+					<ArrowUpRight class="size-4" />
+				</Button>
+				<Button
+					variant="ghost"
+					size="icon-lg"
+					onclick={toggleTheme}
+					class="size-9 rounded-full border border-white/25 bg-white/10 text-white hover:bg-white/20 hover:text-white"
+					aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
 				>
-					<Sparkles class="size-3.5" />
-					{allCategories.length} categories · {totals.all} hand-picked resources
+					{#if dark}
+						<Sun class="size-4" />
+					{:else}
+						<Moon class="size-4" />
+					{/if}
+				</Button>
+			</div>
+		</header>
+
+		<main
+			class="grid flex-1 items-center gap-12 py-12 sm:py-16 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)]"
+		>
+			<div
+				class="hero max-w-3xl"
+				class:is-ready={heroReady}
+				style="--after: {lineCount * 120 + 380}ms"
+			>
+				<span
+					class="inline-flex items-center rounded-full border border-white/25 bg-white/10 px-3 py-1 text-xs font-medium text-white/90"
+				>
+					{totalCategories} categories · {totals.all} hand-picked resources
 				</span>
 
-				<h1 class="mt-5 text-4xl font-bold tracking-tight text-balance sm:text-5xl lg:text-6xl">
-					A curated hub of developer resources.
-				</h1>
-				<p class="mt-4 max-w-2xl text-base text-white/80 sm:text-lg">
-					Every developer tool from the resourxes repo plus the full design-resources library, sorted
-					into tidy categories so you can find what you need and get back to building.
+				<div class="relative mt-5">
+					<h1
+						bind:this={headlineEl}
+						aria-label={headline}
+						class="text-4xl font-bold tracking-tight text-balance sm:text-5xl xl:text-6xl"
+					>
+						{#each headlineWords as word, i (i)}<span class="hero-mask" data-word aria-hidden="true"
+								><span class="hero-word">{word}</span></span
+							>{i < headlineWords.length - 1 ? ' ' : ''}{/each}
+					</h1>
+
+					<div aria-hidden="true" class="spark-layer pointer-events-none absolute inset-0">
+						{#each sparks as spark, i (spark.id)}
+							<svg
+								class="spark"
+								viewBox="0 0 21 21"
+								style="left: {spark.x}%; top: {spark.y}%; --scale: {spark.scale}; animation-duration: {spark.life}s; animation-delay: {spark.delay}s"
+								onanimationiteration={() => respawn(i)}
+							>
+								{@render starPath(spark.color)}
+							</svg>
+						{/each}
+					</div>
+				</div>
+				<p class="hero-fade mt-4 max-w-2xl text-base text-white/80 sm:text-lg">
+					Hand-picked tools for developers, AI agents, and creatives, sorted into tidy categories so
+					you can find what you need and get back to building.
 				</p>
 
-				<div class="mt-7 flex flex-wrap items-center gap-3">
+				<div class="hero-fade hero-fade-late mt-7 flex flex-wrap items-center gap-3">
+					<a
+						href={`${repoUrl}/stargazers`}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="stars-pill relative inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/10 py-1.5 pl-1.5 pr-4 text-sm text-white/80 transition-colors hover:bg-white/20 hover:text-white"
+					>
+						<!-- Glowing border: a rotating light runs around the pill's edge. -->
+						<span aria-hidden="true" class="glow-border glow-border-blur"></span>
+						<span aria-hidden="true" class="glow-border"></span>
+						{#each pillSparks as spark, i (i)}
+							<svg
+								aria-hidden="true"
+								class="spark pill-spark"
+								viewBox="0 0 21 21"
+								style="left: {spark.x}%; top: {spark.y}%; --scale: 0.75; animation-duration: {spark.life}s; animation-delay: {spark.delay}s"
+							>
+								{@render starPath(spark.color)}
+							</svg>
+						{/each}
+						<span class="flex -space-x-2">
+							{#each avatarSeeds as seed (seed)}
+								<img
+									src={avatar(seed)}
+									alt=""
+									width="28"
+									height="28"
+									class="size-7 rounded-full bg-white ring-2 ring-white/90"
+								/>
+							{/each}
+						</span>
+						<Star class="size-4 fill-amber-300 text-amber-300" />
+						<span class="font-bold text-white">{stars === null ? '…' : stars.toLocaleString()}</span>
+						<span>{stars === 1 ? 'star' : 'stars'}</span>
+					</a>
 					<Button
-						href="#resources"
+						href={repoUrl}
+						target="_blank"
+						rel="noopener noreferrer"
 						size="lg"
 						variant="secondary"
 						class="rounded-full bg-white px-5 text-sm font-semibold text-primary hover:bg-white/90"
 					>
-						Browse resources
+						<Star class="size-4" />
+						Star on GitHub
 					</Button>
 					<Button
-						href="https://github.com/mwwlean/resourxes-repo"
-						target="_blank"
-						rel="noopener noreferrer"
+						href="/tools"
 						size="lg"
 						variant="outline"
 						class="rounded-full border-white/30 bg-white/10 px-5 text-sm font-semibold text-white shadow-none hover:bg-white/20 hover:text-white"
 					>
-						View on GitHub
+						Browse resources
 						<ArrowUpRight class="size-4" />
 					</Button>
 				</div>
 			</div>
 
-			<dl class="mt-10 grid max-w-2xl grid-cols-3 gap-3 sm:mt-12">
-				<div class="rounded-2xl border border-white/15 bg-white/10 px-4 py-3">
-					<dd class="text-2xl font-bold tracking-tight">{allCategories.length}</dd>
-					<dt class="mt-0.5 text-xs uppercase tracking-wide text-white/70">Categories</dt>
-				</div>
-				<div class="rounded-2xl border border-white/15 bg-white/10 px-4 py-3">
-					<dd class="text-2xl font-bold tracking-tight">{totals.all}</dd>
-					<dt class="mt-0.5 text-xs uppercase tracking-wide text-white/70">Resources</dt>
-				</div>
-				<div class="rounded-2xl border border-white/15 bg-white/10 px-4 py-3">
-					<dd class="text-2xl font-bold tracking-tight">100%</dd>
-					<dt class="mt-0.5 text-xs uppercase tracking-wide text-white/70">Free to explore</dt>
-				</div>
-			</dl>
-		</div>
-	</header>
-
-	<main id="resources" class="mx-auto max-w-[1440px] scroll-mt-24 px-3 py-6 sm:px-6 sm:py-10">
-		<div class="rounded-3xl border border-border bg-card lg:grid lg:grid-cols-[280px_minmax(0,1fr)]">
-			<aside
-				class="relative border-b border-border bg-muted max-lg:rounded-t-3xl lg:rounded-l-3xl lg:border-b-0"
-			>
-				<div class="lg:sticky lg:top-20">
-					<div class="p-4 pb-3">
-						<div class="flex items-center justify-between gap-3 lg:hidden">
-							<div>
-								<p class="text-sm font-bold tracking-tight">Filters</p>
-								<p class="text-xs text-muted-foreground">
-									{scope.length} categories · {scopeTotal} resources
-								</p>
-							</div>
-							<Button
-								variant="outline"
-								size="sm"
-								onclick={() => (filtersOpen = !filtersOpen)}
-								class="shrink-0 rounded-full"
-								aria-expanded={filtersOpen}
-							>
-								<SlidersHorizontal class="size-4" />
-								{filtersOpen ? 'Hide' : 'Show'}
-							</Button>
-						</div>
-
-						<div class="{filtersOpen ? 'mt-4 block' : 'hidden'} lg:mt-0 lg:block">
-							<div class="relative">
-								<Search
-									class="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
-								/>
-								<Input
-									bind:value={query}
-									type="search"
-									placeholder="Search {totals.all} resources…"
-									aria-label="Search resources"
-									class="h-11 rounded-full border-input bg-card pl-11 pr-11 text-sm shadow-none"
-								/>
-								{#if query}
-									<Button
-										variant="ghost"
-										size="icon-xs"
-										onclick={() => (query = '')}
-										class="absolute right-2 top-1/2 -translate-y-1/2 rounded-full text-muted-foreground"
-										aria-label="Clear search"
-									>
-										<X class="size-4" />
-									</Button>
-								{/if}
-							</div>
-
-							<Tabs value={source} onValueChange={changeSource} class="mt-3">
-								<TabsList class="grid h-10 w-full grid-cols-3 rounded-full bg-card">
-									{#each sources as item}
-										<TabsTrigger value={item.value} class="rounded-full px-2 text-sm">
-											{item.label}
-											<span class="text-xs opacity-60">{item.count}</span>
-										</TabsTrigger>
-									{/each}
-								</TabsList>
-							</Tabs>
-
-							<div class="mt-5 flex items-center justify-between px-1">
-								<p class="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-									Categories
-								</p>
-								<Badge variant="secondary" class="rounded-full">{scope.length}</Badge>
-							</div>
-						</div>
-					</div>
-
-					<nav
-						class="{filtersOpen
-							? 'block'
-							: 'hidden'} relative max-h-96 overflow-y-auto pb-3 pl-4 lg:block lg:max-h-[calc(100dvh-20rem)]"
-					>
-						<div
-							aria-hidden="true"
-							class="pointer-events-none absolute right-0 top-0 hidden h-10 w-4 rounded-l-full bg-card transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] lg:block"
-							style:transform={`translateY(${navIndex * 44}px)`}
-						></div>
-
-						<div class="flex flex-col gap-1">
-							<Button
-								variant="ghost"
-								onclick={() => selectCategory('all')}
-								aria-pressed={active === 'all'}
-								class="h-10 w-full justify-start rounded-xl pl-3 pr-7 text-sm {active === 'all'
-									? 'font-semibold text-foreground'
-									: 'text-muted-foreground hover:bg-background/70 hover:text-foreground'}"
-							>
-								<Layers class="size-4 shrink-0" />
-								<span class="truncate">All resources</span>
-								<span class="ml-auto text-xs opacity-60">{scopeTotal}</span>
-							</Button>
-							{#each scope as category}
-								{@const Icon = icons[category.icon] ?? Layers}
-								<Button
-									variant="ghost"
-									onclick={() => selectCategory(category.key)}
-									aria-pressed={active === category.key}
-									class="h-10 w-full justify-start rounded-xl pl-3 pr-7 text-sm {active ===
-									category.key
-										? 'font-semibold text-foreground'
-										: 'text-muted-foreground hover:bg-background/70 hover:text-foreground'}"
-								>
-									<Icon class="size-4 shrink-0" />
-									<span class="truncate">{category.name}</span>
-									<span class="ml-auto text-xs opacity-60">{category.items.length}</span>
-								</Button>
-							{/each}
-						</div>
-					</nav>
-
-					{#if query || active !== 'all' || source !== 'all'}
-						<div class="{filtersOpen ? 'block' : 'hidden'} px-4 pb-4 lg:block">
-							<Button
-								variant="outline"
-								size="sm"
-								onclick={resetFilters}
-								class="w-full rounded-full"
-							>
-								Reset filters
-							</Button>
-						</div>
-					{/if}
-				</div>
-			</aside>
-
-			<section class="min-w-0 bg-card p-4 max-lg:rounded-b-3xl sm:p-6 lg:rounded-r-3xl">
-				<div class="flex flex-wrap items-end justify-between gap-3">
-					<div>
-						<h2 class="text-2xl font-bold tracking-tight">Browse by category</h2>
-						<p class="mt-1 text-sm text-muted-foreground">
-							{resultCount}
-							{resultCount === 1 ? 'resource' : 'resources'}
-							{#if query.trim()}matching “{query.trim()}”{/if}
-							{#if activeCategory}in {activeCategory.name}{/if}
-						</p>
-					</div>
-					<Badge variant="outline" class="rounded-full px-3 py-1">
-						{#if source === 'all'}All sources{:else if source === 'dev'}Developer{:else}Design{/if}
-					</Badge>
-				</div>
-
-				{#if filtered.length > 0}
-					<div class="mt-6 grid items-start gap-5 md:grid-cols-2">
-						{#each filtered as category (category.key)}
-							{@const showAll = expanded.includes(category.key) || query.trim().length > 0}
-							{@const visibleItems = showAll ? category.items : category.items.slice(0, 8)}
-							<Card.Root class="rounded-2xl bg-background shadow-none ring-border">
-								<Card.Content>
-									<h3 class="sr-only">{category.name}</h3>
-									<ul class="flex flex-col gap-0.5">
-										{#each visibleItems as item (item.name + item.url)}
-											<li>
-												<a
-													href={item.url}
-													target="_blank"
-													rel="noopener noreferrer"
-													class="group flex items-start gap-3 rounded-xl px-2 py-2.5 transition-colors hover:bg-muted"
-												>
-													<ResourceIcon url={item.url} name={item.name} class="mt-0.5 size-9" />
-													<span class="min-w-0 flex-1">
-														<span class="flex items-center justify-between gap-2">
-															<span class="text-sm font-semibold text-foreground">{item.name}</span>
-															<ArrowUpRight
-																class="size-4 shrink-0 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary"
-															/>
-														</span>
-														<span class="mt-0.5 block text-xs leading-relaxed text-muted-foreground">
-															{item.description}
-														</span>
-													</span>
-												</a>
-											</li>
-										{/each}
-									</ul>
-								</Card.Content>
-
-								{#if !query.trim() && category.items.length > 8}
-									<Card.Footer class="pt-1">
-										<Button
-											variant="ghost"
-											size="sm"
-											onclick={() => toggleExpanded(category.key)}
-											class="w-full rounded-full text-muted-foreground"
-										>
-											{expanded.includes(category.key)
-												? 'Show less'
-												: `Show all ${category.items.length}`}
-											<ChevronDown
-												class="size-4 transition-transform {expanded.includes(category.key)
-													? 'rotate-180'
-													: ''}"
-											/>
-										</Button>
-									</Card.Footer>
-								{/if}
-							</Card.Root>
-						{/each}
-					</div>
-				{:else}
-					<Card.Root class="mt-6 rounded-2xl bg-background shadow-none ring-border">
-						<Card.Content class="items-center py-8 text-center">
-							<div
-								class="flex size-14 items-center justify-center rounded-2xl bg-accent text-accent-foreground"
-							>
-								<Search class="size-6" />
-							</div>
-							<h3 class="text-lg font-bold tracking-tight">No resources match</h3>
-							<p class="max-w-sm text-sm text-muted-foreground">
-								Try a different search term or reset the filters to see everything again.
-							</p>
-							<Button onclick={resetFilters} class="mt-2 rounded-full">Reset filters</Button>
-						</Card.Content>
-					</Card.Root>
-				{/if}
-			</section>
-		</div>
-	</main>
-
-	<footer>
-		<Separator></Separator>
-		<div
-			class="mx-auto flex max-w-[1440px] flex-col gap-2 px-4 py-8 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-6"
-		>
-			<p>
-				Built from
-				<a
-					href="https://github.com/mwwlean/resourxes-repo"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="font-medium text-primary hover:underline">resourxes-repo</a
-				>
-				and
-				<a
-					href="https://github.com/bradtraversy/design-resources-for-developers"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="font-medium text-primary hover:underline">design-resources</a
-				>.
-			</p>
-			<p class="font-mono text-xs">ResourXe · curated developer &amp; design links</p>
-		</div>
-
-		<div bind:this={wordmarkMaskEl} class="overflow-hidden px-4 sm:px-6">
-			<p
+			<div
 				aria-hidden="true"
-				class="select-none bg-gradient-to-b from-primary/60 via-primary/30 to-transparent bg-clip-text text-center text-[clamp(4rem,17vw,15rem)] font-extrabold leading-[0.72] tracking-[-0.07em] text-transparent transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] {wordmarkVisible
-					? 'translate-y-0'
-					: 'translate-y-[110%]'}"
+				class="logo-cluster hidden select-none lg:block"
+				class:is-ready={heroReady}
+				style="--after: {lineCount * 120 + 380}ms"
 			>
-				ResourXe
-			</p>
-		</div>
-	</footer>
+				<div class="marquee-mask ml-auto grid h-[600px] max-w-xl grid-cols-3 gap-4 overflow-hidden">
+					{#each toolColumns as column, c (c)}
+						<div class="marquee-col" style="--i: {c}">
+							<div
+								class="marquee-track"
+								class:reverse={marquee[c].reverse}
+								style="--duration: {marquee[c].duration}s"
+							>
+								{#each [0, 1] as copy (copy)}
+									{#each column as tool (tool.name)}
+										<div class="pb-4">
+											<div
+												class="flex items-center gap-3 rounded-2xl bg-white/10 p-3 shadow-lg shadow-black/10 ring-1 ring-white/20 backdrop-blur-md"
+											>
+												<span
+													class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-white"
+												>
+													<img src={logo(tool.domain)} alt="" class="size-6 object-contain" />
+												</span>
+												<span class="min-w-0 leading-tight">
+													<span class="block truncate text-sm font-semibold">{tool.name}</span>
+													<span class="block truncate text-xs text-white/60">{tool.tag}</span>
+												</span>
+											</div>
+										</div>
+									{/each}
+								{/each}
+							</div>
+						</div>
+					{/each}
+				</div>
+			</div>
+		</main>
+
+		<footer class="border-t border-white/15">
+			<div
+				class="py-5 text-sm text-white/50"
+			>
+				<p>Created with love by Jan Leander Matutes</p>
+			</div>
+
+			<div class="overflow-hidden">
+				<p
+					aria-hidden="true"
+					class="select-none bg-gradient-to-b from-white/70 via-white/30 to-transparent bg-clip-text text-left text-[clamp(4rem,17vw,15rem)] font-extrabold leading-[0.72] tracking-[-0.07em] text-transparent"
+				>
+					ResourXe
+				</p>
+			</div>
+		</footer>
+	</div>
 </div>
+
+{#snippet starPath(color: string)}
+	<path
+		fill={color}
+		d="M9.825.844a.719.719 0 0 1 1.35 0l.687 1.876c.539 1.472.53 3.672 1.638 4.78 1.108 1.108 3.308 1.1 4.78 1.638l1.876.687a.719.719 0 0 1 0 1.35l-1.876.687c-1.472.539-3.672.53-4.78 1.638-1.108 1.108-1.1 3.308-1.638 4.78l-.687 1.876a.719.719 0 0 1-1.35 0l-.687-1.876c-.539-1.472-.53-3.672-1.638-4.78-1.108-1.108-3.308-1.1-4.78-1.638L.844 11.175a.719.719 0 0 1 0-1.35l1.876-.687c1.472-.539 3.672-.53 4.78-1.638 1.108-1.108 1.1-3.308 1.638-4.78L9.825.844Z"
+	/>
+{/snippet}
+
+<style>
+	/* Dark mode: near-black page with a soft brand glow instead of the full red fill. */
+	:global(.dark) .landing {
+		background-color: var(--color-background);
+		background-image:
+			radial-gradient(60rem 30rem at 15% -10%, rgb(239 68 68 / 0.22), transparent 70%),
+			radial-gradient(40rem 24rem at 100% 110%, rgb(185 28 28 / 0.16), transparent 70%);
+	}
+
+	.landing {
+		/* Soft spring: damping 0.72, settles with ~4% overshoot. */
+		--spring: linear(
+			0, 0.06, 0.199, 0.367, 0.534, 0.682, 0.803, 0.894, 0.959, 1, 1.025, 1.036, 1.038, 1.036,
+			1.03, 1.024, 1.017, 1.012, 1.007, 1.004, 1.001, 1, 0.999, 0.999, 1
+		);
+	}
+
+	/* Each word sits in its own clip box; the word rises up into view from below it. */
+	.hero-mask {
+		display: inline-block;
+		overflow: hidden;
+		vertical-align: top;
+		/* Room for descenders and the spring overshoot without clipping. */
+		padding-bottom: 0.12em;
+		margin-bottom: -0.12em;
+	}
+
+	.hero-word {
+		display: inline-block;
+		transform: translateY(115%);
+	}
+
+	.hero-fade {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+
+	.is-ready .hero-word {
+		transform: none;
+		transition: transform 1000ms var(--spring);
+		transition-delay: calc(var(--line, 0) * 120ms);
+	}
+
+	.is-ready .hero-fade {
+		opacity: 1;
+		transform: none;
+		transition:
+			opacity 600ms ease-out,
+			transform 600ms ease-out;
+		transition-delay: var(--after);
+	}
+
+	.is-ready .hero-fade-late {
+		transition-delay: calc(var(--after) + 100ms);
+	}
+
+	/* Headline sparkles: hidden until the lines have risen in. */
+	.spark-layer {
+		opacity: 0;
+	}
+
+	.is-ready .spark-layer {
+		opacity: 1;
+		transition: opacity 400ms ease-out;
+		transition-delay: calc(var(--after) - 200ms);
+	}
+
+	.spark {
+		position: absolute;
+		width: 1.1rem;
+		height: 1.1rem;
+		translate: -50% -50%;
+		transform: scale(0);
+		animation-name: sparkle;
+		animation-timing-function: ease-in-out;
+		animation-iteration-count: infinite;
+		filter: drop-shadow(0 0 6px rgb(255 255 255 / 0.55));
+	}
+
+	@keyframes sparkle {
+		0% {
+			transform: scale(0) rotate(0deg);
+			opacity: 0;
+		}
+		45% {
+			transform: scale(var(--scale)) rotate(75deg);
+			opacity: 1;
+		}
+		100% {
+			transform: scale(0) rotate(150deg);
+			opacity: 0;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.spark-layer {
+			display: none;
+		}
+	}
+
+	/* Stars pill: a bright arc travels around the border, with a blurred copy as glow. */
+	.glow-border {
+		position: absolute;
+		inset: -1px;
+		border-radius: inherit;
+		padding: 1.5px;
+		background: conic-gradient(
+			from var(--glow-angle),
+			transparent 0deg,
+			transparent 200deg,
+			#fde68a 260deg,
+			#ffffff 300deg,
+			#fde68a 330deg,
+			transparent 360deg
+		);
+		/* Show only the padding ring, not the fill. */
+		mask:
+			linear-gradient(#000 0 0) content-box exclude,
+			linear-gradient(#000 0 0);
+		animation: glow-spin 3.5s linear infinite;
+		pointer-events: none;
+	}
+
+	.glow-border-blur {
+		inset: -3px;
+		padding: 4px;
+		filter: blur(6px);
+		opacity: 0.8;
+	}
+
+	@keyframes glow-spin {
+		to {
+			--glow-angle: 360deg;
+		}
+	}
+
+	.pill-spark {
+		width: 0.8rem;
+		height: 0.8rem;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.glow-border {
+			animation: none;
+		}
+
+		.pill-spark {
+			display: none;
+		}
+	}
+
+	/* Vertical marquee: columns fade in after the hero copy, then scroll forever. */
+	.marquee-mask {
+		mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent);
+	}
+
+	.marquee-col {
+		opacity: 0;
+		transform: translateY(16px);
+	}
+
+	.is-ready .marquee-col {
+		opacity: 1;
+		transform: none;
+		transition:
+			opacity 700ms ease-out,
+			transform 900ms var(--spring);
+		transition-delay: calc(var(--after) + var(--i) * 90ms);
+	}
+
+	.marquee-track {
+		animation: marquee-up var(--duration) linear infinite;
+	}
+
+	.marquee-track.reverse {
+		animation-direction: reverse;
+	}
+
+	/* Pause on hover so a logo can actually be read. */
+	.marquee-mask:hover .marquee-track {
+		animation-play-state: paused;
+	}
+
+	@keyframes marquee-up {
+		from {
+			transform: translateY(0);
+		}
+		to {
+			transform: translateY(-50%);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.marquee-col,
+		.is-ready .marquee-col {
+			opacity: 1;
+			transform: none;
+			transition: none;
+		}
+
+		.marquee-track {
+			animation: none;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.hero-word,
+		.hero-fade,
+		.is-ready .hero-word,
+		.is-ready .hero-fade {
+			opacity: 1;
+			transform: none;
+			transition: none;
+		}
+	}
+</style>
