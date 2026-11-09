@@ -259,6 +259,7 @@ A curated list of developer tools to help you code, design, and build faster.
 | [Trello](https://trello.com/) | A visual tool for organizing tasks and projects using boards, lists, and cards. |
 | [Slack](https://slack.com/) | A messaging platform for team collaboration and communication, with channels and integrations. |
 | [Zapier](https://zapier.com/) | A platform to automate workflows between different apps and services without coding. |
+| [Glim](https://github.com/NeoPanic/Glim) | A free, MIT-licensed macOS file viewer for Markdown, source code, PDF/Office previews, and data files, with basic UTF-8 editing. |
 | [Linear](https://linear.app/) | A fast issue tracker and project planner built for software teams. |
 | [Obsidian](https://obsidian.md/) | A private, local-first knowledge base built on Markdown files. |
 | [Raycast](https://www.raycast.com/) | An extensible launcher for macOS with snippets, scripts, and AI. |
