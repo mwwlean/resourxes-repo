@@ -42,6 +42,7 @@ A curated list of developer tools to help you code, design, and build faster.
   - [MLOps & Model Serving](#mlops--model-serving)
   - [AI Video Creation & Editing](#ai-video-creation--editing)
 - [Creatives](#creatives) (1249)
+- [Contributing](#contributing)
 - [Credits & sources](#credits--sources)
 
 # Developers
@@ -719,6 +720,32 @@ The Creatives section of the site has 1249 design resources across 33 categories
 | Firefox Extensions | 24 |
 | AI Graphic Design Tools | 7 |
 | Others | 86 |
+
+<div align="right">
+    <b><a href="#table-of-contents">↥ Back To Top</a></b>
+</div>
+
+## Contributing
+
+Suggestions and new resources are welcome. Read the full [contributing guidelines](CONTRIBUTING.md) before opening a pull request.
+
+To submit a resource:
+
+1. Check that it is not already listed.
+2. Add a row to the correct section table:
+
+   ```markdown
+   | [Name](https://example.com/) | A short, neutral description of what it does. |
+   ```
+
+3. Open a pull request titled `[Resource] -> [Section]` and fill in the [pull request template](.github/pull_request_template.md).
+
+Requirements:
+
+- Free to use, or has a meaningful free tier. Paid-only products are not accepted.
+- Open source preferred. OSI-approved licenses (MIT, Apache-2.0, BSD, GPL, MPL, etc.) are preferred; source-available licenses such as FSL, BSL, or SSPL must be disclosed.
+- Actively maintained, with a working link to the official site or repository.
+- One resource per pull request. Disclose any affiliation with the resource.
 
 <div align="right">
     <b><a href="#table-of-contents">↥ Back To Top</a></b>
