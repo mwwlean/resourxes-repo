@@ -125,6 +125,7 @@ export const categories: ResourceCategory[] = [
 		icon: 'FlaskConical',
 		blurb: 'Catch regressions before your users do.',
 		items: [
+			{ name: "Agent QA", url: "https://github.com/vostride/agent-qa", description: "A source-available CLI and MCP tool for natural-language web and mobile application testing, with execution memory and UI adaptation." },
 			{ name: 'Jest', url: 'https://jestjs.io/', description: 'A JavaScript testing framework for React and Node.js applications.' },
 			{ name: 'Mocha', url: 'https://mochajs.org/', description: 'A JavaScript test framework that runs on Node.js.' },
 			{ name: 'Cypress', url: 'https://www.cypress.io/', description: 'A testing framework for running end-to-end tests in web applications.' },
@@ -217,6 +218,7 @@ export const categories: ResourceCategory[] = [
 			{ name: 'Trello', url: 'https://trello.com/', description: 'A visual tool for organizing tasks and projects using boards, lists, and cards.' },
 			{ name: 'Slack', url: 'https://slack.com/', description: 'A messaging platform for team collaboration and communication, with channels and integrations.' },
 			{ name: 'Zapier', url: 'https://zapier.com/', description: 'A platform to automate workflows between different apps and services without coding.' },
+			{ name: "Glim", url: "https://github.com/NeoPanic/Glim", description: "A free, MIT-licensed macOS file viewer for Markdown, source code, PDF/Office previews, and data files, with basic UTF-8 editing." },
 			{ name: "Linear", url: "https://linear.app/", description: "A fast issue tracker and project planner built for software teams." },
 			{ name: "Obsidian", url: "https://obsidian.md/", description: "A private, local-first knowledge base built on Markdown files." },
 			{ name: "Raycast", url: "https://www.raycast.com/", description: "An extensible launcher for macOS with snippets, scripts, and AI." },
