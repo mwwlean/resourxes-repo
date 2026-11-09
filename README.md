@@ -161,6 +161,7 @@ A curated list of developer tools to help you code, design, and build faster.
 
 | Website | Description |
 | --- | --- |
+| [Agent QA](https://github.com/vostride/agent-qa) | A source-available CLI and MCP tool for natural-language web and mobile application testing, with execution memory and UI adaptation (FSL-1.1-ALv2; converts to Apache-2.0 after two years). |
 | [Jest](https://jestjs.io/) | A JavaScript testing framework for React and Node.js applications. |
 | [Mocha](https://mochajs.org/) | A JavaScript test framework that runs on Node.js. |
 | [Cypress](https://www.cypress.io/) | A testing framework for running end-to-end tests in web applications. |
