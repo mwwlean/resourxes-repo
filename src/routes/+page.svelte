@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { ArrowUpRight, BookOpen, Moon, Star, Sun } from 'lucide-svelte';
+	import { ArrowUpRight, Box, Moon, Star, Sun } from 'lucide-svelte';
 	import { Button } from '#lib/components/ui/button/index.ts';
 	import { totalResources as devTotal } from '#lib/resources.ts';
 	import { designTotal } from '#lib/design-resources.ts';
@@ -216,9 +216,9 @@
 		<header class="flex items-center justify-between py-5">
 			<a href="/" class="flex items-center gap-2.5">
 				<span
-					class="flex size-9 items-center justify-center rounded-xl bg-white/15 text-white ring-1 ring-white/20"
+					class="flex size-9 items-center justify-center rounded-xl bg-[#dc2626] text-white"
 				>
-					<BookOpen class="size-4" />
+					<Box class="size-4" />
 				</span>
 				<span class="text-base font-bold tracking-tight">ResourXe</span>
 			</a>

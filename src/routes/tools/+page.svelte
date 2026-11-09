@@ -63,9 +63,9 @@
 	import { designCategories, designTotal } from '#lib/design-resources.ts';
 	import { aiCategories, aiTotal } from '#lib/ai-resources.ts';
 	import { breadcrumb } from '#lib/breadcrumb.ts';
+	import { resourceQuery } from '#lib/search.ts';
 	import ResourceIcon from '#lib/components/resource-icon.svelte';
 	import { Button } from '#lib/components/ui/button/index.ts';
-	import { Input } from '#lib/components/ui/input/index.ts';
 	import { Badge } from '#lib/components/ui/badge/index.ts';
 
 	type Source = 'all' | 'dev' | 'design' | 'ai';
@@ -181,12 +181,10 @@
 
 	const PREVIEW_LIMIT = 6;
 
-	let query = $state('');
 	let source = $state<Source>('all');
 	let active = $state('all');
 	let openGroups = $state<string[]>(['dev', 'ai', 'design']);
 	let navOpen = $state(false);
-	let searchInput = $state<HTMLInputElement | null>(null);
 	let contentTop = $state<HTMLElement | null>(null);
 
 	function scrollToContent() {
@@ -233,23 +231,11 @@
 	}
 
 	function resetFilters() {
-		query = '';
+		resourceQuery.set('');
 		clearScope();
 	}
 
-	function onKeydown(event: KeyboardEvent) {
-		const target = event.target as HTMLElement | null;
-		const typing =
-			target?.tagName === 'INPUT' || target?.tagName === 'TEXTAREA' || target?.isContentEditable;
-		if (event.key === '/' && !typing) {
-			event.preventDefault();
-			searchInput?.focus();
-		} else if (event.key === 'Escape' && target === searchInput && query) {
-			query = '';
-		}
-	}
-
-	const q = $derived(query.trim().toLowerCase());
+	const q = $derived($resourceQuery.trim().toLowerCase());
 
 	const matches = (item: { name: string; description: string }) =>
 		!q || item.name.toLowerCase().includes(q) || item.description.toLowerCase().includes(q);
@@ -305,46 +291,12 @@
 	const navActive = 'bg-primary font-medium text-primary-foreground shadow-xs';
 </script>
 
-<svelte:window onkeydown={onKeydown} />
-
 <main class="w-full lg:grid lg:grid-cols-[280px_minmax(0,1fr)]">
 	<!-- Sidebar -->
 	<aside
 		class="border-b border-border bg-muted lg:sticky lg:top-15 lg:flex lg:h-[calc(100dvh-3.75rem)] lg:flex-col lg:border-b-0 lg:border-r"
 	>
 		<div class="flex flex-col gap-3 p-4 lg:pb-3">
-			<div class="relative">
-				<Search
-					class="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
-				/>
-				<Input
-					bind:ref={searchInput}
-					bind:value={query}
-					type="search"
-					placeholder="Search {totals.all} resources"
-					aria-label="Search resources"
-					class="h-10 rounded-lg border-input bg-card pl-10 pr-10 text-sm shadow-none [&::-webkit-search-cancel-button]:hidden"
-				/>
-				{#if query}
-					<button
-						type="button"
-						onclick={() => {
-							query = '';
-							searchInput?.focus();
-						}}
-						class="absolute right-2 top-1/2 flex size-6 -translate-y-1/2 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground"
-						aria-label="Clear search"
-					>
-						<X class="size-4" />
-					</button>
-				{:else}
-					<kbd
-						class="pointer-events-none absolute right-3 top-1/2 hidden -translate-y-1/2 rounded border border-border bg-muted px-1.5 font-mono text-[11px] text-muted-foreground lg:block"
-						>/</kbd
-					>
-				{/if}
-			</div>
-
 			<!-- Mobile: compact scope picker -->
 			<button
 				type="button"
@@ -491,10 +443,10 @@
 				</span>
 				{#if q}
 					<Badge variant="secondary" class="gap-1 rounded-full py-0.5 pl-2.5 pr-1">
-						“{query.trim()}”
+						“{$resourceQuery.trim()}”
 						<button
 							type="button"
-							onclick={() => (query = '')}
+							onclick={() => resourceQuery.set('')}
 							class="rounded-full p-0.5 hover:bg-background"
 							aria-label="Remove search filter"><X class="size-3" /></button
 						>
@@ -523,7 +475,7 @@
 				{#if source !== 'all' && globalCount > 0}
 					<p class="max-w-sm text-sm text-muted-foreground">
 						{globalCount}
-						{globalCount === 1 ? 'resource matches' : 'resources match'} “{query.trim()}” in other
+						{globalCount === 1 ? 'resource matches' : 'resources match'} “{$resourceQuery.trim()}” in other
 						categories.
 					</p>
 					<Button onclick={clearScope} class="rounded-full">Search all resources</Button>
